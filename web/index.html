@@ -28,6 +28,12 @@
 
   <title>flutter_myapp</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- custom css -->
+  <link rel="stylesheet" href="custom.css">
+
+  <!-- Auth0 -->
+  <script src="https://cdn.auth0.com/js/auth0-spa-js/1.13/auth0-spa-js.production.js"></script>
 </head>
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to
@@ -40,6 +46,11 @@
       });
     }
   </script>
+
+  <div class="loading">
+    <div class="loader"></div>
+  </div>
+
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
