@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_myapp/src/pages/error/not_found.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:flutter_myapp/src/pages/home/home.dart';
@@ -27,11 +28,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      initialRoute: '/login',
       routes: <String, WidgetBuilder>{
-        '/': (context) => Login(title: appName),
         '/login': (context) => Login(title: appName),
         '/home': (context) => Home(title: appName),
         '/profile': (context) => Profile(title: appName),
+      },
+      onUnknownRoute: (routerSettings) {
+        return MaterialPageRoute(
+            builder: (context) => NotFound(
+                  title: appName,
+                ));
       },
     );
   }
