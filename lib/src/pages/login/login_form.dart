@@ -62,9 +62,15 @@ class _LoginFormState extends State<LoginForm> {
             },
             child: Text('Login'),
           ),
-          InkWell(onTap:() => {
-            Navigator.pushNamedAndRemoveUntil(context, 'login-oauth', (route) => false)
-          }, child: Text("Login via OAuth"),)
+          TextButton(
+            onPressed: () {
+              loginService.signInWithGoogle().then((value) => {
+                    if (value.isNotEmpty)
+                      {Navigator.pushNamed(context, '/home')}
+                  });
+            },
+            child: Text('Login With Google'),
+          ),
         ],
       ),
     );

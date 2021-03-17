@@ -21,12 +21,12 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     _loginService.isLogin().then((value) => {
-          if (value != 'true')
-            {
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil('/login', (route) => false)
-            }
-        });
+      if (value != 'true')
+        {
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/login', (route) => false)
+        }
+    });
     super.initState();
   }
 
@@ -34,20 +34,29 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _loginService.user(),
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          var data = snapshot.data;
+          Map user = snapshot.data;
           return Scaffold(
-            appBar: AppBar(
-              title: Text(title),
-            ),
-            drawer: _menu.leftMenu(context, _loginService, title),
-            body: Center(child: Text.rich(
-              TextSpan(children: [
-                TextSpan(text: data.toString())
-              ])
-            )),
-          );
+              appBar: AppBar(
+                title: Text(title),
+              ),
+              drawer: _menu.leftMenu(context, _loginService, title),
+              body: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text(user['name']),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text(user['email']),
+                      ),
+                    ]),
+              ));
         }
         return CircularProgressIndicator();
       },
