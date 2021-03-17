@@ -8,7 +8,7 @@ LoginService _loginService = LoginService();
 class Login extends StatefulWidget {
   final String title;
 
-  const Login({Key key, @required this.title}) : super(key: key);
+  const Login({Key? key, required this.title}) : super(key: key);
 
   _LoginState createState() => _LoginState(title);
 }

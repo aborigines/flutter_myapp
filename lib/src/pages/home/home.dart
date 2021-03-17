@@ -9,7 +9,7 @@ Menu _menu = Menu();
 class Home extends StatefulWidget {
   final String title;
 
-  const Home({Key key, @required this.title}) : super(key: key);
+  const Home({Key? key, required this.title}) : super(key: key);
 
   _HomeState createState() => _HomeState(title);
 }

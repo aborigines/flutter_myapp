@@ -4,7 +4,7 @@ import 'package:flutter_myapp/src/service/login_service.dart';
 class LoginForm extends StatefulWidget {
   final LoginService loginService;
 
-  LoginForm({Key key, @required this.loginService}) : super(key: key);
+  LoginForm({Key? key, required this.loginService}) : super(key: key);
 
   @override
   _LoginFormState createState() => _LoginFormState(loginService);
@@ -32,7 +32,7 @@ class _LoginFormState extends State<LoginForm> {
               controller: _email,
               decoration: InputDecoration(hintText: 'Email'),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return 'Please enter email';
                 }
                 return null;
@@ -47,7 +47,7 @@ class _LoginFormState extends State<LoginForm> {
               autocorrect: false,
               decoration: InputDecoration(hintText: 'Password'),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return 'Please enter password';
                 }
                 return null;
@@ -56,12 +56,15 @@ class _LoginFormState extends State<LoginForm> {
           ),
           TextButton(
             onPressed: () {
-              if (_formKey.currentState.validate()) {
+              if (_formKey.currentState!.validate()) {
                 this.loginService.login(context);
               }
             },
             child: Text('Login'),
           ),
+          InkWell(onTap:() => {
+            Navigator.pushNamedAndRemoveUntil(context, 'login-oauth', (route) => false)
+          }, child: Text("Login via OAuth"),)
         ],
       ),
     );

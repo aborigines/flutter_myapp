@@ -8,7 +8,7 @@ Menu _menu = Menu();
 class Profile extends StatefulWidget {
   final String title;
 
-  const Profile({Key key, @required this.title}) : super(key: key);
+  const Profile({Key? key, required this.title}) : super(key: key);
 
   _ProfileState createState() => _ProfileState(title);
 }
@@ -44,7 +44,7 @@ class _ProfileState extends State<Profile> {
             drawer: _menu.leftMenu(context, _loginService, title),
             body: Center(child: Text.rich(
               TextSpan(children: [
-                TextSpan(text: data)
+                TextSpan(text: data.toString())
               ])
             )),
           );
