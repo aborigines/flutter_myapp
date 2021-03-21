@@ -23,9 +23,9 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _loginService.isLogin(),
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data == 'true') {
+          if (snapshot.data) {
             return Scaffold(
               appBar: AppBar(
                 title: Text(title),

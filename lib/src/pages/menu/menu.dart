@@ -49,7 +49,9 @@ class Menu {
             ])),
             onTap: () {
               Navigator.pop(context, (route) => false);
-              loginService.logout(context);
+              loginService.logout().then((value) => {
+                Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false)
+              });
             },
           ),
         ],

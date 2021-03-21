@@ -1,42 +1,32 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_cache/flutter_cache.dart' as cache;
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
+final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
-class LoginService {
-  int _expireInSeconds = 3600;
+class LoginService with ChangeNotifier {
+
+  Stream<User?> get onAuthStateChanged => _firebaseAuth.authStateChanges();
 
   Future<void> login(BuildContext context) async {
-    cache.write('isLoggedIn', 'true', _expireInSeconds);
     await Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
   }
 
-  Future user() async {
-    return cache.load('user', '{"name": "test", "email": "test@test.com"}');
-  }
-
-  Future<void> logout(BuildContext context) async {
-    cache.destroy('isLoggedIn');
-    cache.destroy('user');
-    await _googleSignIn.signOut();
-    await Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+  Future<void> logout() async {
+    await Future.wait([
+      _firebaseAuth.signOut(),
+      _googleSignIn.signOut()
+    ]);
   }
 
   Future isLogin() async {
-    var result = await cache.load('isLoggedIn', 'false');
-    if (result == 'true') {
-      cache.write('isLoggedIn', 'true', _expireInSeconds);
-    }
-    return result;
+    return _googleSignIn.isSignedIn();
   }
 
-  Future<String> signInWithGoogle() async {
+  Future<bool> signInWithGoogle() async {
     await Firebase.initializeApp();
-
     final GoogleSignInAccount googleSignInAccount = (await _googleSignIn.signIn())!;
     final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
 
@@ -45,11 +35,7 @@ class LoginService {
       idToken: googleSignInAuthentication.idToken,
     );
 
-    final UserCredential authResult = await _auth.signInWithCredential(credential);
-    final User user = authResult.user!;
-    var userMap = {"name": user.displayName, "email": user.email};
-    cache.write('isLoggedIn', 'true', _expireInSeconds);
-    cache.write('user', userMap, _expireInSeconds);
-    return '$user';
+    final UserCredential authResult = await _firebaseAuth.signInWithCredential(credential);
+    return authResult.user!.email != null ? true : false;
   }
 }

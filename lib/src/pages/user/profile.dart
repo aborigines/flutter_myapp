@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_myapp/src/pages/menu/menu.dart';
 import 'package:flutter_myapp/src/service/login_service.dart';
@@ -21,22 +22,18 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     _loginService.isLogin().then((value) => {
-      if (value != 'true')
-        {
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil('/login', (route) => false)
-        }
-    });
+          if (!value) {Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false)}
+        });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _loginService.user(),
+    return StreamBuilder(
+      stream: _loginService.onAuthStateChanged,
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          Map user = snapshot.data;
+          User? _user = snapshot.data;
           return Scaffold(
               appBar: AppBar(
                 title: Text(title),
@@ -49,11 +46,11 @@ class _ProfileState extends State<Profile> {
                     children: [
                       Padding(
                         padding: EdgeInsets.all(10.0),
-                        child: Text(user['name']),
+                        child: Text(_user!.displayName!),
                       ),
                       Padding(
                         padding: EdgeInsets.all(10.0),
-                        child: Text(user['email']),
+                        child: Text(_user.email!),
                       ),
                     ]),
               ));
