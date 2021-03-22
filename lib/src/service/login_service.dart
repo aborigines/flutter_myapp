@@ -11,7 +11,7 @@ class LoginService with ChangeNotifier {
   Stream<User?> get onAuthStateChanged => _firebaseAuth.authStateChanges();
 
   Future<void> login(BuildContext context) async {
-    await Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false);
+    await Navigator.of(context).popAndPushNamed('/home');
   }
 
   Future<void> logout() async {

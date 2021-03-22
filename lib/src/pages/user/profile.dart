@@ -22,7 +22,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     _loginService.isLogin().then((value) => {
-          if (!value) {Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false)}
+          if (!value) {Navigator.of(context).popAndPushNamed('/login')}
         });
     super.initState();
   }

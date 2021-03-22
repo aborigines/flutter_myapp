@@ -23,7 +23,7 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     _loginService.isLogin().then((value) => {
-          if (value) {Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false)}
+          if (value) {Navigator.of(context).popAndPushNamed('/home')}
         });
     super.initState();
   }

@@ -15,7 +15,7 @@ class NotFound extends StatelessWidget {
           icon: new Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context)
-                .pushNamedAndRemoveUntil('/login', (route) => false);
+                .popAndPushNamed('/login');
           },
         ),
       ),

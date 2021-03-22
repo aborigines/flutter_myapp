@@ -34,9 +34,7 @@ class _HomeState extends State<Home> {
               body: Center(child: Text('Welcome Home')),
             );
           } else {
-            Navigator.pop(context, (route) => false);
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil('/login', (route) => false);
+            Navigator.of(context).popAndPushNamed('/login');
           }
         }
         return CircularProgressIndicator();

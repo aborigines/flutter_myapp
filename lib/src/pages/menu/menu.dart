@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_myapp/src/service/login_service.dart';
 
 class Menu {
-  Drawer leftMenu(
-      BuildContext context, LoginService loginService, String title) {
+  Drawer leftMenu(BuildContext context, LoginService loginService, String title) {
     return Drawer(
       child: ListView(
         children: <Widget>[
@@ -20,9 +19,7 @@ class Menu {
               TextSpan(text: 'Home'),
             ])),
             onTap: () {
-              Navigator.pop(context, (route) => false);
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil('/home', (route) => false);
+              Navigator.of(context).popAndPushNamed('/home');
             },
           ),
           ListTile(
@@ -34,9 +31,7 @@ class Menu {
               TextSpan(text: 'Profile'),
             ])),
             onTap: () {
-              Navigator.pop(context, (route) => false);
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil('/profile', (route) => false);
+              Navigator.of(context).popAndPushNamed('/profile');
             },
           ),
           ListTile(
@@ -48,10 +43,7 @@ class Menu {
               TextSpan(text: 'Logout'),
             ])),
             onTap: () {
-              Navigator.pop(context, (route) => false);
-              loginService.logout().then((value) => {
-                Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => false)
-              });
+              Navigator.popAndPushNamed(context, '/logout');
             },
           ),
         ],
