@@ -4,7 +4,6 @@ import 'package:flutter_myapp/src/pages/menu/menu.dart';
 import 'package:flutter_myapp/src/service/login_service.dart';
 
 LoginService _loginService = LoginService();
-Menu _menu = Menu();
 
 class Profile extends StatefulWidget {
   final String title;
@@ -38,7 +37,7 @@ class _ProfileState extends State<Profile> {
               appBar: AppBar(
                 title: Text(title),
               ),
-              drawer: _menu.leftMenu(context, _loginService, title),
+              drawer: Menu(title: title),
               body: Center(
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

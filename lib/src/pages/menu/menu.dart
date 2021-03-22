@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_myapp/src/service/login_service.dart';
+import 'package:flutter/widgets.dart';
 
-class Menu {
-  Drawer leftMenu(BuildContext context, LoginService loginService, String title) {
+class Menu extends StatefulWidget {
+  final String title;
+
+  const Menu({Key? key, required this.title}) : super(key: key);
+
+  @override
+  _MenuState createState() => _MenuState(title);
+}
+
+class _MenuState extends State<Menu> {
+  final String title;
+
+  _MenuState(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    String currentRoute = ModalRoute.of(context)!.settings.name!;
     return Drawer(
       child: ListView(
         children: <Widget>[
@@ -11,39 +26,46 @@ class Menu {
             decoration: BoxDecoration(color: Colors.blue),
           ),
           ListTile(
-            title: Text.rich(TextSpan(children: <InlineSpan>[
-              WidgetSpan(
-                child: Icon(Icons.home),
-              ),
-              TextSpan(text: "    "),
-              TextSpan(text: 'Home'),
-            ])),
+            title: Row(
+              children: <Widget>[
+                Icon(Icons.home),
+                Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Text('Home', style: TextStyle(color: (currentRoute == '/home' ? Colors.blue : Colors.black))),
+                )
+              ],
+            ),
             onTap: () {
               Navigator.of(context).popAndPushNamed('/home');
             },
           ),
           ListTile(
-            title: Text.rich(TextSpan(children: <InlineSpan>[
-              WidgetSpan(
-                child: Icon(Icons.people),
-              ),
-              TextSpan(text: "    "),
-              TextSpan(text: 'Profile'),
-            ])),
+            title: Row(
+              children: <Widget>[
+                Icon(Icons.people),
+                Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Text('Profile', style: TextStyle(color: (currentRoute == '/profile' ? Colors.blue : Colors.black))),
+                )
+              ],
+            ),
             onTap: () {
               Navigator.of(context).popAndPushNamed('/profile');
             },
           ),
+          Divider(),
           ListTile(
-            title: Text.rich(TextSpan(children: <InlineSpan>[
-              WidgetSpan(
-                child: Icon(Icons.logout),
-              ),
-              TextSpan(text: "    "),
-              TextSpan(text: 'Logout'),
-            ])),
+            title: Row(
+              children: <Widget>[
+                Icon(Icons.logout),
+                Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Text('Logout', style: TextStyle(color: Colors.black)),
+                )
+              ],
+            ),
             onTap: () {
-              Navigator.popAndPushNamed(context, '/logout');
+              Navigator.of(context).popAndPushNamed('/logout');
             },
           ),
         ],
